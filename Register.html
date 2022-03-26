@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- body從第373行開始 -->
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>永和豆漿</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,900,900i" rel="stylesheet">
+    <link rel="icon" href="LOGO3.ico" type="image/x-icon" />
+    <script src="https://kit.fontawesome.com/8e919f91e0.js" crossorigin="anonymous"></script>
+    <style>
+        /*CSS*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+        }
+
+        h1 {
+            color: #C72828;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            color: #C72828;
+            font-size: 1.5rem;
+        }
+
+        h4 {
+            color: black;
+            font-size: 1rem;
+        }
+
+        h5 {
+            color: black;
+            font-size: 1rem;
+        }
+
+        h6 {
+            color: black;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1cm;
+        }
+
+        p {
+            font-size: 0.8rem;
+            color: #6D6F78;
+        }
+
+        /*back-to-top*/
+        #button {
+            display: inline-block;
+            background-color: #FF531D;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            border-radius: 4px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transition: background-color .3s,
+                opacity .5s, visibility .5s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+
+        #button::after {
+            content: "\f077";
+            font-family: FontAwesome;
+            font-weight: normal;
+            font-style: normal;
+            font-size: 2em;
+            line-height: 50px;
+            color: #FFF9EC;
+        }
+
+        #button:hover {
+            cursor: pointer;
+            background-color: #333;
+        }
+
+        #button:active {
+            background-color: #555;
+        }
+
+        #button.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 頁首 */
+        nav {
+            background: #FDED73;
+            padding: 5px 40px;
+            height: auto;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav ul li {
+            padding: 0;
+            cursor: pointer;
+        }
+
+        nav ul li.items {
+            position: relative;
+            width: auto;
+            margin: 0 16px;
+            text-align: center;
+            order: 3;
+        }
+
+        nav ul li.items:after {
+            position: absolute;
+            content: '';
+            left: 0;
+            bottom: 5px;
+            height: 2px;
+            width: 100%;
+            background: #C72828;
+            opacity: 0;
+            transition: all 0.2s linear;
+        }
+
+        nav ul li.items:hover:after {
+            opacity: 1;
+            bottom: -16px;
+        }
+
+        nav ul li.logo {
+            flex: 1;
+            cursor: default;
+            user-select: none;
+        }
+
+        nav ul li a {
+            color: #FF531D;
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: .4s;
+        }
+
+        nav ul li:hover a {
+            color: #C72828;
+
+        }
+
+        nav ul li i {
+            font-size: 23px;
+        }
+
+        nav ul li.btn {
+            display: none;
+        }
+
+        nav ul li.btn.hide i:before {
+            content: '\f00d';
+        }
+
+        @media all and (max-width: 900px) {
+            nav {
+                padding: 5px 30px;
+            }
+
+            nav ul li.items {
+                width: 100%;
+                display: none;
+            }
+
+            nav ul li.items.show {
+                display: block;
+            }
+
+            nav ul li.btn {
+                display: block;
+            }
+
+            nav ul li.items:hover {
+                border-radius: 5px;
+                box-shadow: inset 0 0 5px #C72828,
+                    inset 0 0 10px #C72828;
+            }
+
+            nav ul li.items:hover:after {
+                opacity: 0;
+            }
+        }
+
+        /* 頁尾 */
+        footer {
+            background: #465C69;
+            width: 100%;
+            height: auto;
+            /* position: relative;
+                bottom: 0%; */
+            margin: 0%;
+            color: #fff9ec;
+            padding-top: 20px;
+        }
+
+        footer h4 {
+            color: #fff9ec;
+        }
+
+        #footer {
+            display: flex;
+            flex-shrink: inherit;
+            justify-content: space-around;
+            margin: 0;
+            line-height: 2em;
+            padding-bottom: 20px;
+        }
+
+        #footer a {
+            text-decoration: none;
+            color: #fff9ec;
+        }
+
+        #logo {
+            width: 180px;
+            margin-top: 20px;
+        }
+
+        i {
+            width: 17px;
+        }
+
+        #copyright {
+            text-align: center;
+        }
+
+        @media screen and (max-width: 922px) {
+            #footer {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+        }
+
+        /*註冊*/
+
+        main {
+            width: 60%;
+            height: auto;
+            padding: 50px 50px;
+            margin: 100px auto;
+            background-color: #FFEFDF;
+            border-radius: 20px;
+        }
+
+        .register {
+            border-spacing: 20px;
+            background-color: #FFEFDF;
+            padding: 20px;
+            width: 100%;
+            height: auto;
+            margin: 0px auto;
+            justify-content: center;
+        }
+
+        input[type="email"] {
+            width: 340px;
+            height: 25px;
+        }
+
+        input[type="password"] {
+            width: 340px;
+            height: 25px;
+        }
+
+        input[type="name"] {
+            height: 25px;
+        }
+
+        input[type="date"] {
+            height: 25px;
+        }
+
+        input[type="tel"] {
+            height: 25px;
+        }
+
+        input [type="text"] {
+            height: 25px;
+        }
+
+        /*送出按鈕*/
+        #submit {
+            width: 100%;
+        }
+
+        .submit {
+            position: relative;
+            height: 50px;
+            width: 150px;
+            margin: 30px auto;
+            padding: 10px;
+            text-align: center;
+            display: block;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+            outline: none;
+            cursor: pointer;
+            background: #FF531D;
+            overflow: hidden;
+            transition: 0.6s;
+        }
+
+        .submit:first-child {
+            color: #FFF9EC;
+        }
+
+        .submit:before,
+        .submit:after {
+            position: absolute;
+            content: '';
+            left: 0;
+            top: 0;
+            height: 100%;
+            filter: blur(30px);
+            opacity: 0.4;
+            transition: 0.6s;
+        }
+
+        .submit:before {
+            width: 60px;
+            background: rgba(255, 255, 255, 0.6);
+            transform: translateX(-130px) skewX(-45deg);
+        }
+
+        .submit:after {
+            width: 30px;
+            background: rgba(255, 255, 255, 0.6);
+            transform: translateX(-130px) skewX(-45deg);
+        }
+
+        .submit:hover:before,
+        .submit:hover:after {
+            opacity: 0.6;
+            transform: translateX(320px) skewX(-45deg);
+        }
+
+        .submit:hover {
+            color: #f2f2f2;
+        }
+
+        .submit:hover:first-child {
+            background: #C72828;
+        }
+    </style>
+</head>
+
+
+<body>
+    <!-- back to top -->
+    <a id="button"></a>
+    <script>
+        var btn = $('#button');
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 300) {
+                btn.addClass('show');
+            } else {
+                btn.removeClass('show');
+            }
+        });
+
+        btn.on('click', function (e) {
+            e.preventDefault();
+            $('html, body').animate({ scrollTop: 0 }, '300');
+        });
+    </script>
+    <!-- 頁首 -->
+    <nav>
+        <ul>
+            <li class="logo"><a href="Mainpage.html">
+                    <img src="LOGO4.svg" width="120px" height="70px" alt="brand">
+                </a></li>
+            <li class="items"><a href="Intro.html">簡介</a></li>
+            <li class="items"><a href="Menu.html">菜單</a></li>
+            <li class="items"><a href="judge.php">預約</a></li>
+            <li class="items"><a href="BranchStoreInFo.html">分店資訊</a></li>
+            <li class="items"><a href="judge_login.php"><span class="far fa-user"></a></li>
+            <li class="items"><a href="#">繁/ENG</a></li>
+            <li class="btn"><a href="#"><i class="fas fa-bars"></i></a></li>
+        </ul>
+    </nav>
+    <script>
+        $(document).ready(function () {
+            $('.btn').click(function () {
+                $('.items').toggleClass("show");
+                $('ul li').toggleClass("hide");
+            });
+        });
+    </script>
+
+    <!--body-->
+    <main>
+        <form method="POST" action="newaccount.php">
+            <h2>會員註冊</h2>
+            <table class="register">
+                <tr>
+                    <td>
+                        <h5>帳號(email):&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                    </td>
+                    <td><input type="email" name="mail" value='' placeholder=" 電子信箱即為您的帳號 " required></td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>輸入密碼:</h5>
+                    </td>
+                    <td><input type="password" name="password" value='' maxlength="8" minlength="5" placeholder=" 5~8位，限大小寫a~z與數字0~9 " required></td>
+                    <td>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>確認密碼:</h5>
+                    </td>
+                    <td><input type="password" name="c_password" value='' maxlength="8" minlength="5" placeholder=" 請確認密碼 " required></td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>姓名:</h5>
+                    </td>
+                    <td><input type="text" name="name" value='' required></td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>性別:</h5>
+                    </td>
+                    <td><input type="radio" name="sex" value="男" checked>男
+                        <input type="radio" name="sex" value="女">女
+                        <input type="radio" name="sex" value="第三性別">第三性別
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>出生年月日:</h5>
+                    </td>
+                    <td><input type="date" name='birth' placeholder='2021/01/01' required></td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>手機號碼:</h5>
+                    </td>
+                    <td><input type="tele" name='tele' maxlength="10" minlength="7" value='' placeholder=" 09xxxxxxxx " required></td>
+                </tr>
+
+            </table>
+            <div id="submit">
+                <input type="submit" class="submit" style="text-decoration: none; color:#FFF9EC" value="確認註冊">
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <div id="footer">
+            <div id="about">
+                <h4>關於我們</h4>
+                <a href="">關於永和豆漿</a><br>
+                <a href="">常見問題</a><br>
+                <a href="">安心宣言</a><br>
+                <a href="">隱私權政策</a><br>
+                <a href="">服務條款</a><br>
+            </div>
+            <div id="member">
+                <h4>會員專區</h4>
+                <a href="">加入會員</a><br>
+                <a href="">據點查詢</a><br>
+                <a href="">訂閱電子報</a><br>
+            </div>
+            <div id="cooperate">
+                <h4>合作加盟</h4>
+                <a href="">加盟專區</a><br>
+                <a href="">異業合作</a><br>
+                <a href="">人才招募</a><br>
+            </div>
+            <div id="logo">
+                <!-- logo.jpg -->
+                <img src="LOGO3.svg" alt="">
+            </div>
+            <div id="connect">
+                <h4>聯絡我們</h4>
+                <a href=""><i class="fab fa-facebook-square"></i> Facebook</a><br>
+                <a href=""><i class="fab fa-instagram"></i> Instagram</a><br>
+                電話:0800-092-000<br>
+                <a href="">客服信箱</a><br>
+            </div>
+            <div id="time">
+                <h4>營業時間</h4>
+                周一至周日<br>
+                17:30-11:30 <br>
+            </div>
+        </div>
+        <hr>
+        <div id="copyright">Copyright © 2021 Yong Ho Dou Jiang. All rights reserved.</div>
+    </footer>
+</body>
+
+</html>

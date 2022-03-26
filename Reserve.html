@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- body從第407行開始 -->
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>永和豆漿</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,900,900i" rel="stylesheet">
+    <link rel="icon" href="LOGO3.ico" type="image/x-icon" />
+    <script src="https://kit.fontawesome.com/8e919f91e0.js" crossorigin="anonymous"></script>
+    <script src="menu.js"></script>
+    <style>
+        /*CSS*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+        }
+
+        h1 {
+            color: #C72828;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            color: #C72828;
+            font-size: 1.5rem;
+        }
+
+        h4 {
+            color: black;
+            font-size: 1rem;
+        }
+
+        h5 {
+            color: black;
+            font-size: 1rem;
+        }
+
+        h6 {
+            color: black;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1cm;
+        }
+
+        p {
+            font-size: 0.8rem;
+            color: #6D6F78;
+        }
+
+        /*back-to-top*/
+        #button {
+            display: inline-block;
+            background-color: #FF531D;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            border-radius: 4px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transition: background-color .3s,
+                opacity .5s, visibility .5s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+
+        #button::after {
+            content: "\f077";
+            font-family: FontAwesome;
+            font-weight: normal;
+            font-style: normal;
+            font-size: 2em;
+            line-height: 50px;
+            color: #FFF9EC;
+        }
+
+        #button:hover {
+            cursor: pointer;
+            background-color: #333;
+        }
+
+        #button:active {
+            background-color: #555;
+        }
+
+        #button.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 頁首 */
+        nav {
+            background: #FDED73;
+            padding: 5px 40px;
+            height: auto;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav ul li {
+            padding: 0;
+            cursor: pointer;
+        }
+
+        nav ul li.items {
+            position: relative;
+            width: auto;
+            margin: 0 16px;
+            text-align: center;
+            order: 3;
+        }
+
+        nav ul li.items:after {
+            position: absolute;
+            content: '';
+            left: 0;
+            bottom: 5px;
+            height: 2px;
+            width: 100%;
+            background: #C72828;
+            opacity: 0;
+            transition: all 0.2s linear;
+        }
+
+        nav ul li.items:hover:after {
+            opacity: 1;
+            bottom: -16px;
+        }
+
+        nav ul li.logo {
+            flex: 1;
+            cursor: default;
+            user-select: none;
+        }
+
+        nav ul li a {
+            color: #FF531D;
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: .4s;
+        }
+
+        nav ul li:hover a {
+            color: #C72828;
+
+        }
+
+        nav ul li i {
+            font-size: 23px;
+        }
+
+        nav ul li.btn {
+            display: none;
+        }
+
+        nav ul li.btn.hide i:before {
+            content: '\f00d';
+        }
+
+        @media all and (max-width: 900px) {
+            nav {
+                padding: 5px 30px;
+            }
+
+            nav ul li.items {
+                width: 100%;
+                display: none;
+            }
+
+            nav ul li.items.show {
+                display: block;
+            }
+
+            nav ul li.btn {
+                display: block;
+            }
+
+            nav ul li.items:hover {
+                border-radius: 5px;
+                box-shadow: inset 0 0 5px #C72828,
+                    inset 0 0 10px #C72828;
+            }
+
+            nav ul li.items:hover:after {
+                opacity: 0;
+            }
+        }
+
+        /* 頁尾 */
+        footer {
+            background: #465C69;
+            width: 100%;
+            height: auto;
+            /* position: relative;
+                bottom: 0%; */
+            margin: 0%;
+            color: #fff9ec;
+            padding-top: 20px;
+        }
+
+        footer h4 {
+            color: #fff9ec;
+        }
+
+        #footer {
+            display: flex;
+            flex-shrink: inherit;
+            justify-content: space-around;
+            margin: 0;
+            line-height: 2em;
+            padding-bottom: 20px;
+        }
+
+        #footer a {
+            text-decoration: none;
+            color: #fff9ec;
+        }
+
+        #logo {
+            width: 180px;
+            margin-top: 20px;
+        }
+
+        i {
+            width: 17px;
+        }
+
+        #copyright {
+            text-align: center;
+        }
+
+        @media screen and (max-width: 922px) {
+            #footer {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+        }
+
+        /* 預約 */
+        form {
+            background-color: #FFEFDF;
+            padding: 30px;
+            margin: 0 auto;
+            margin-top: 100px;
+            margin-bottom: 70px;
+            width: 80%;
+            height: auto;
+            justify-content: center;
+            border-radius: 20px;
+        }
+
+        .three {
+            display: flex;
+        }
+
+        .whole {
+            width: 80%;
+            justify-content: center;
+            margin: 0px auto;
+            margin-bottom: -100px;
+            display: flex;
+
+        }
+
+        .label {
+            width: 70%;
+            margin-left: 30px;
+            display: flex;
+        }
+
+        .veg {
+            width: 30%;
+            padding: 10px;
+            direction: rtl;
+            display: flex;
+        }
+
+        #menu-label {
+            background-color: #C72828;
+            color: #FFF9EC;
+            font-size: 15px;
+            text-decoration: none;
+            margin-left: 5px;
+            padding: 10px 20px;
+            border-radius: 10px 10px 0px 0px;
+
+        }
+
+        #no-egg {
+            text-decoration: none;
+            font-size: 12px;
+            background-color: #C72828;
+            color: #FFF9EC;
+            margin: 0px 10px;
+            padding: 5px;
+        }
+
+
+        menu {
+            background-color: #FFEFDF;
+            margin: 0 auto;
+            margin-bottom: 100px;
+            width: 80%;
+            height: auto;
+            justify-content: center;
+            border-radius: 0 0 20px 20px;
+
+        }
+
+        .menu {
+            width: 100%;
+            height: auto;
+            margin: 30px auto;
+            justify-content: center;
+            border-bottom: 1px solid;
+            border-color: #E5E5E5;
+        }
+
+        /*送出按鈕*/
+        #submit {
+            width: 100%;
+        }
+
+        .submit {
+            position: relative;
+            height: 50px;
+            width: 150px;
+            margin: 30px auto;
+            padding: 10px;
+            text-align: center;
+            display: block;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+            outline: none;
+            cursor: pointer;
+            background: #FF531D;
+            overflow: hidden;
+            transition: 0.6s;
+        }
+
+        .submit:first-child {
+            color: #FFF9EC;
+        }
+
+        .submit:before,
+        .submit:after {
+            position: absolute;
+            content: '';
+            left: 0;
+            top: 0;
+            height: 100%;
+            filter: blur(30px);
+            opacity: 0.4;
+            transition: 0.6s;
+        }
+
+        .submit:before {
+            width: 60px;
+            background: rgba(255, 255, 255, 0.6);
+            transform: translateX(-130px) skewX(-45deg);
+        }
+
+        .submit:after {
+            width: 30px;
+            background: rgba(255, 255, 255, 0.6);
+            transform: translateX(-130px) skewX(-45deg);
+        }
+
+        .submit:hover:before,
+        .submit:hover:after {
+            opacity: 0.6;
+            transform: translateX(320px) skewX(-45deg);
+        }
+
+        .submit:hover {
+            color: #f2f2f2;
+        }
+
+        .submit:hover:first-child {
+            background: #C72828;
+        }
+
+        input[type="button"] {
+            font-size: 18px;
+            background-color: #FF531D;
+            color: #FFF9EC;
+            border-style: none;
+            padding: 2px 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- back to top -->
+    <a id="button"></a>
+    <script>
+        var btn = $('#button');
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 300) {
+                btn.addClass('show');
+            } else {
+                btn.removeClass('show');
+            }
+        });
+
+        btn.on('click', function (e) {
+            e.preventDefault();
+            $('html, body').animate({ scrollTop: 0 }, '300');
+        });
+    </script>
+
+    <!-- 頁首 -->
+    <nav>
+        <ul>
+            <li class="logo"><a href="Mainpage.html">
+                    <img src="LOGO4.svg" width="120px" height="70px" alt="brand">
+                </a></li>
+            <li class="items"><a href="Intro.html">簡介</a></li>
+            <li class="items"><a href="Menu.html">菜單</a></li>
+            <li class="items"><a href="judge.php">預約</a></li>
+            <li class="items"><a href="BranchStoreInFo.html">分店資訊</a></li>
+            <li class="items"><a href="judge_login.php"><span class="far fa-user"></a></li>
+            <li class="items"><a href="#">繁/ENG</a></li>
+            <li class="btn"><a href="#"><i class="fas fa-bars"></i></a></li>
+        </ul>
+    </nav>
+    <script>
+        $(document).ready(function () {
+            $('.btn').click(function () {
+                $('.items').toggleClass("show");
+                $('ul li').toggleClass("hide");
+            });
+        });
+    </script>
+        <script type="text/javascript">
+            function node(name, child)
+            {
+                this.name=name;
+                this.child=child;
+            }
+    
+            function dataHierarchy()
+            {
+                // 北部
+                var north=new Array();
+                var i=0;
+                north[i++]=new node("基隆", ["暖暖店 205基隆市暖暖區東勢街1-14號", "山東店 202基隆市中正區中正路804號"]);
+                north[i++]=new node("台北", ["北投店 112台北市北投區公舘路27號", "羅斯福店 100台北市中正區羅斯福路三段244巷2號","萬華店 108台北市萬華區萬大路474號","長春店 104台北市中山區長春路352號","東門店 100台北市中正區臨沂街75巷14號1樓","松山店 105台北市松山區八德路四段687-697號"]);
+                north[i++]=new node("新北", ["永和店 234新北市永和區永貞路393號", "蘆洲店 247新北市蘆洲區光華路18號","新店店 231新北市新店區中正路300號","瑞芳店 224新北市瑞芳區明燈路三段51號"]);
+                north[i++]=new node("桃園", ["春日店 330桃園市桃園區春日路227號", "中壢店 320桃園市中壢區中山路108號"]);
+                north[i++]=new node("宜蘭", ["復興店 260宜蘭縣宜蘭市復興路一段66號", "大福店 263宜蘭縣壯圍鄉壯濱路六段272號","羅東店 265宜蘭縣羅東鎮中華路71號"]);
+                north[i++]=new node("新竹", ["竹北店 302新竹縣竹北市博愛街349號 號", "新竹店 300新竹市東區民權路73號","光復店 300新竹市東區光復路一段438號"]);
+                // 中部
+                var middle=new Array();
+                var i=0;
+                middle[i++]=new node("苗栗", ["苗栗中山店 360苗栗縣苗栗市中山路62號", "後龍店 356苗栗縣後龍鎮中山路175號", "公館大同店 363苗栗縣公館鄉大同路111號"]);
+                middle[i++]=new node("台中", ["太平店 411030台中市太平區中山路一段284號", "龍井店 43448台中市龍井區台灣大道五段3巷23號", "沙鹿店 43344台中市沙鹿區中山路448號","豐原店 420台中市豐原區三豐路一段216號"]);
+                middle[i++]=new node("彰化", ["旭光店 500彰化縣彰化市旭光路155號", "員林店 510彰化縣員林市浮圳路二段285號", "北斗店 521彰化縣北斗鎮中華路295號","社頭店 511彰化縣社頭鄉山腳路二段812號"]);
+                middle[i++]=new node("南投", ["光明店 540南投縣南投市光明一路60號之6號", "埔里店 545南投縣埔里鎮中山路三段241號"]);
+                middle[i++]=new node("雲林", ["虎尾中正店 632雲林縣虎尾鎮中正路273號", "虎尾店 632雲林縣虎尾鎮林森路二段270號"]);
+                // 南部
+                var west=new Array();
+                var i=0;
+                west[i++]=new node("嘉義", ["博愛店 600嘉義市西區博愛路二段11號", "民族店 600嘉義市東區民族路41號", "朴子店 613嘉義縣朴子市開元路168號"]);
+                west[i++]=new node("台南", ["麻豆店 721台南市麻豆區中山路46號", "佳里店 722台南市佳里區進學路242號", "公園店 700台南市中西區公園路123號","復國店 710台南市永康區復國一路410號","文成店 704台南市北區文成一路148號","仁德店 717台南市仁德區文賢路二段6號"]);
+                west[i++]=new node("高雄", ["華夏店 813高雄市左營區華夏路690號", "旗山店 842高雄市旗山區瑞吉里延平一路與中華路交叉路口", "左營店 813高雄市左營區左營大路357號","三民店 807高雄市三民區九如一路976號"]);
+                west[i++]=new node("屏東", ["內埔店 912屏東縣內埔鄉光明路268號", "屏東店 900屏東縣屏東市民族路287號"]);
+                // 東部
+                var east=new Array();
+                var i=0;
+                east[i++]=new node("花蓮", ["吉安店 973花蓮縣吉安鄉台11線253號", "壽豐店 974花蓮縣壽豐鄉中山路二段303號", "博愛店 970花蓮縣花蓮市博愛街263號"]);
+                east[i++]=new node("台東", ["正永店 950台東縣台東市中山路405號", "傳廣店 950台東縣台東市傳廣路229號", "關山店 950台東縣台東市長沙街208號"]);
+                east[i++]=new node("金門", ["金城店 893金門縣金城鎮光前路77號", "光前店 893金門縣金城鎮光前路82號"]);
+                east[i++]=new node("連江", ["東引店 212連江縣東引鄉中柳村42號"]);
+                // 地區
+                var output=new Array();
+                var i=0;
+                output[i++]=new node("北部", north);
+                output[i++]=new node("中部", middle);
+                output[i++]=new node("南部", west);
+                output[i++]=new node("東部/離島", east);
+    
+                return(output);
+            }
+            dataTree=dataHierarchy();
+    
+            // 第三個欄位被更動後的反應動作
+            function onChangeColumn3()
+            {
+                updatePath();
+            }
+    
+            // 第二個欄位被更動後的反應動作
+            function onChangeColumn2()
+            {
+                form=document.theForm;
+                index1=form.column1.selectedIndex;
+                index2=form.column2.selectedIndex;
+                index3=form.column3.selectedIndex;
+                // Create options for column 3
+                for (i=0;i<dataTree[index1].child[index2].child.length;i++)
+                    form.column3.options[i]=new Option(dataTree[index1].child[index2].child[i], dataTree[index1].child[index2].child[i]);
+                form.column3.options.length=dataTree[index1].child[index2].child.length;
+                updatePath();
+            }
+    
+            // 第一個欄位被更動後的反應動作
+            function onChangeColumn1() 
+            {
+                form=document.theForm;
+                index1=form.column1.selectedIndex;
+                index2=form.column2.selectedIndex;
+                index3=form.column3.selectedIndex;
+                // Create options for column 2
+                for (i=0;i<dataTree[index1].child.length;i++)
+                    form.column2.options[i]=new Option(dataTree[index1].child[i].name, dataTree[index1].child[i].name);
+                form.column2.options.length=dataTree[index1].child.length;
+                // Clear column 3
+                form.column3.options.length=0;
+                updatePath();
+            }
+    
+            // 修改所顯示的路徑
+            function updatePath()
+            {
+                form=document.theForm;
+                index1=form.column1.selectedIndex;
+                index2=form.column2.selectedIndex;
+                index3=form.column3.selectedIndex;
+                if ((index1>=0) && (index2>=0) && (index3>=0)) {
+                    text1=form.column1.options[index1].text;
+                    text2=form.column2.options[index2].text;
+                    text3=form.column3.options[index3].text;
+                    theForm.path.value="["+text1+"] "+text2+"(縣/市)"+text3;
+                    // theForm3.path.value=text1+" (縣/市) "+text2+" (鄉/鎮/區) "+text3;
+                    // theForm.path.value=text1+" ==> "+text2+" ==> "+text3;
+    
+                    // ff.area_l.value = text1;
+                    // ff.area_m.value = text2;
+                    // ff.area_s.value = text3;
+                } else
+                    form.path.value="";
+            }
+        </script> 
+    <!--body-->
+    <!-- <form>
+        <h2>選擇分店</h2>
+        <br>
+        <div class="three">
+            <h5>地區:</h5> &nbsp;&nbsp;<select id="first-list"
+                onchange="changeCo(this.selectedIndex)"></select>&nbsp;&nbsp;
+            <h5>縣市：</h5>&nbsp;&nbsp;<select id="sector-list"></select>&nbsp;&nbsp;
+            <h5>分店：</h5>&nbsp;&nbsp;<select id="third-list"></select>
+        </div>
+    </form>
+    <script type="text/javascript">
+        var co = ['北', '中', '南', '東/離島'];
+        var coSelect = document.getElementById("first-list");
+        var inner = "";
+        for (var i = 0; i < co.length; i++) {
+            inner = inner + '<option value=i>' + co[i] + '</option>';
+        }
+        coSelect.innerHTML = inner;
+
+        var sectors = new Array();
+        sectors[0] = ['台北', '新北', '基隆', '桃園', '新竹', '宜蘭'];
+        sectors[1] = ['苗栗', '台中', '彰化', '南投', '雲林'];
+        sectors[2] = ['嘉義', '台南', '高雄', '屏東', '澎湖',];
+        sectors[3] = ['花蓮', '台東', '金門', '馬祖',];
+        function changeCo(index) {
+            var Sinner = "";
+            for (var i = 0; i < sectors[index].length; i++) {
+                Sinner = Sinner + '<option value=i>' + sectors[index][i] + '</option>';
+            }
+            var sectorSelect = document.getElementById("sector-list");
+            sectorSelect.innerHTML = Sinner;
+        }
+        changeCo(document.getElementById("first-list").selectedIndex);
+
+        var sectorss = new Array();
+        sectors[0] = ['台北', '新北', '基隆', '桃園', '新竹', '宜蘭'];
+        sectors[1] = ['苗栗', '台中', '彰化', '南投', '雲林'];
+        sectors[2] = ['嘉義', '台南', '高雄', '屏東', '澎湖',];
+        sectors[3] = ['花蓮', '台東', '金門', '馬祖',];
+        sectorss[0][0] = ['a', 'b'];
+        sectorss[0][1] = ['c', 'd'];
+        sectorss[0][2] = ['e', 'f'];
+        sectorss[0][3] = ['g', 'h'];
+        sectorss[0][4] = ['i', 'j'];
+        sectorss[0][5] = ['k', 'l'];
+        sectorss[1][0] = ['a1', 'b1'];
+        sectorss[1][1] = ['c1', 'd1'];
+        sectorss[1][2] = ['e1', 'f1'];
+        sectorss[1][3] = ['g1', 'h1'];
+        sectorss[1][4] = ['i1', 'j1'];
+        sectorss[2][0] = ['a2', 'b2'];
+        sectorss[2][1] = ['c2', 'd2'];
+        sectorss[2][2] = ['e2', 'f2'];
+        sectorss[2][3] = ['g2', 'h2'];
+        sectorss[2][4] = ['i2', 'j2'];
+        sectorss[3][0] = ['a3', 'b3'];
+        sectorss[3][1] = ['c3', 'd3'];
+        sectorss[3][2] = ['e3', 'f3'];
+        sectorss[3][3] = ['g3', 'h3'];
+        function changeRe(index) {
+            var sinner = "";
+            for (var i = 0; i < sectorss[index].length; i++) {
+                sinner = sinner + '<option value=i>' + sectorss[index][i] + '</option>';
+            }
+            var sectorsssSelect = document.getElementById("third-list");
+            sectorsssSelect.innerHTML = sinner;
+        }
+        changeRe(document.getElementById("sector-list").selectedIndex);
+    </script> -->
+    <div class="whole">
+        <div class="label">
+            <a id="menu-label" href="#menu1">燒餅</a>
+            <a id="menu-label" href="#menu2">蛋餅</a>
+            <a id="menu-label" href="#menu3">飯糰</a>
+            <a id="menu-label" href="#menu4">饅頭</a>
+            <a id="menu-label" href="#menu5">蔥抓餅</a>
+            <a id="menu-label" href="#menu6">其他</a>
+            <a id="menu-label" href="#menu7">飲料</a>
+        </div>
+        <div class="veg">
+            <a id="no-egg" href="#">蛋奶素</a>
+            <a id="no-egg" href="#">純素</a>
+        </div>
+    </div>
+    <form  name="theForm" method="POST" action=Check.php>
+        <menu>
+            <table class="menu" id="menu1" cellpadding="11px">
+                <tr>
+                    <td rowspan="13" width="45px">
+                        <h1>燒餅類</h1>
+                    </td>
+                    <td></td>
+                    <td width="120px">
+                        <h4>品項</h4>
+                    </td>
+                    <td width="100px">
+                        <h4>單價</h4>
+                    </td>
+                    <td width="80px">
+                        <h4>數量</h4><!-- 數字加減 -->
+                    </td>
+                    <td width="100px">
+                        <h4>備註</h4></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="12" width="200px"><img src="1-1.jpeg" alt="" width="200" height="150"><img
+                            src="1-2.jpeg" alt="" width="200" height="150"><img src="1-3.jpeg" alt="" width="200"
+                            height="150"> </td>
+                    <td>燒餅</td>
+                    <td>$13</td>
+                    <td>
+                        <!-- <input type='button' value='-' class='qtyminus' field='quantity' />&nbsp;&nbsp;
+                        <input type='text' name='biscuit1' value='0' class='qty' style="width: 30px;" />&nbsp;&nbsp;
+                        <input type='button' value='+' class='qtyplus' field='quantity' /> -->
+                        <input name="minus" type="button" onclick="minuser()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum" name="countnum" value='0' style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>油條</td>
+                    <td>$13</td>
+                    <td>
+                        <!-- <input type='button' value='-' class='qtyminus' field='quantity' />&nbsp;&nbsp;
+                        <input type='text' name='biscuit2' value='0' class='qty' style="width: 30px;" />&nbsp;&nbsp;
+                        <input type='button' value='+' class='qtyplus' field='quantity' /> -->
+                        <input name="minus" type="button" onclick="minuser1()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum1" name="countnum1" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder1()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo1" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>燒餅油條</td>
+                    <td>$25</td>
+                    <td>
+                        <!-- <input type='button' value='-' class='qtyminus' field='quantity' />&nbsp;&nbsp;
+                        <input type='text' name='biscuit3' value='0' class='qty' style="width: 30px;" />&nbsp;&nbsp;
+                        <input type='button' value='+' class='qtyplus' field='quantity' /> -->
+                        <input name="minus" type="button" onclick="minuser2()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum2" name="countnum2" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder2()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo2" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>燒餅蛋</td>
+                    <td>23</td>
+                    <td>
+                        <!-- <input type='button' value='-' class='qtyminus' field='quantity' />&nbsp;&nbsp;
+                        <input type='text' name='biscuit4' value='0' class='qty' style="width: 30px;" />&nbsp;&nbsp;
+                        <input type='button' value='+' class='qtyplus' field='quantity' /> -->
+                        <input name="minus" type="button" onclick="minuser3()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum3" name="countnum3" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder3()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo3" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>燒餅起司蛋</td>
+                    <td>$30</td>
+                    <td>
+                        <!-- <input type='button' value='-' class='qtyminus' field='quantity' />&nbsp;&nbsp;
+                        <input type='text' name='biscuit5' value='0' class='qty' style="width: 30px;" />&nbsp;&nbsp;
+                        <input type='button' value='+' class='qtyplus' field='quantity' /> -->
+                        <input name="minus" type="button" onclick="minuser4()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum4" name="countnum4" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder4()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo4" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>燒餅培根蛋</td>
+                    <td>$30</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser5()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum5" name="countnum5" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder5()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo5" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>燒餅火腿蛋</td>
+                    <td>$30</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser6()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum6" name="countnum6" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder6()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo6" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>燒餅鮪魚蛋</td>
+                    <td>$30</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser7()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum7" name="countnum7" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder7()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo7" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>燒餅玉米蛋</td>
+                    <td>$30</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser8()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum8" name="countnum8" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder8()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo8" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>燒餅肉鬆蛋</td>
+                    <td>$30</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser9()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum9" name="countnum9" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder9()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo9" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>燒餅豬排蛋</td>
+                    <td>$35</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser10()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum10" name="countnum10" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder10()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo10" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>燒餅沙拉</td>
+                    <td>$40</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser11()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum11" name="countnum11" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder11()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo11" style="width:80px"></a></td>
+                </tr>
+            </table>
+
+            <table class="menu" id="menu2" cellpadding="11px">
+                <tr>
+                    <td rowspan="11" width="45px">
+                        <h1>蛋餅類</h1>
+                    </td>
+                    <td></td>
+                    <td width="120px">
+                        <h4>品項</h4>
+                    </td>
+                    <td width="100px">
+                        <h4>單價</h4>
+                    </td>
+                    <td width="80px">
+                        <h4>數量</h4><!-- 數字加減 -->
+                    </td>
+                    <td width="100px">
+                        <h4>備註</h4></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="10" width="200px"><img src="2-1.jpeg" alt="" width="200" height="150"><img
+                            src="2-2.jpeg" alt="" width="200" height="150"><img src="2-3.jpeg" alt="" width="200"
+                            height="150"> </td>
+                    <td>蛋餅</td>
+                    <td>$15</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser12()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum12" name="countnum12" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder12()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo12" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>起司蛋餅</td>
+                    <td>$25</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser13()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum13" name="countnum13" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder13()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo13" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>培根蛋餅</td>
+                    <td>$25</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser14()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum14" name="countnum14" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder14()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo14" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>火腿蛋餅</td>
+                    <td>$25</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser15()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum15" name="countnum15" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder15()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo15" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>鮪魚蛋餅</td>
+                    <td>$25</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser16()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum16" name="countnum16" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder16()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo16" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>玉米蛋餅</td>
+                    <td>$25</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser17()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum17" name="countnum17" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder17()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo17" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>肉鬆蛋餅</td>
+                    <td>$25</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser18()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum18" name="countnum18" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder18()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo18" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>豬排蛋餅</td>
+                    <td>$30</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser19()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum19" name="countnum19" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder19()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo19" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蛋餅包油條</td>
+                    <td>$28</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser20()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum20" name="countnum20" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder20()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo20" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蛋餅包飯糰</td>
+                    <td>$40</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser21()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum21" name="countnum21" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder21()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo21" style="width:80px"></a></td>
+                </tr>
+            </table>
+
+            <table class="menu" id="menu3" cellpadding="11px">
+                <tr>
+                    <td rowspan="11" width="45px">
+                        <h1>飯糰類</h1>
+                    </td>
+                    <td></td>
+                    <td width="120px">
+                        <h4>品項</h4>
+                    </td>
+                    <td width="100px">
+                        <h4>單價</h4>
+                    </td>
+                    <td width="80px">
+                        <h4>數量</h4><!-- 數字加減 -->
+                    </td>
+                    <td width="100px">
+                        <h4>備註</h4></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="10" width="200px"><img src="3-1.jpeg" alt="" width="200" height="150"><img
+                            src="3-2.jpeg" alt="" width="200" height="150"><img src="3-3.jpeg" alt="" width="200"
+                            height="150"> </td>
+                    <td>飯團</td>
+                    <td>$25</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser22()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum22" name="countnum22" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder22()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo22" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>甜飯團</td>
+                    <td>$25</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser23()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum23" name="countnum23" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder23()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo23" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>素飯團</td>
+                    <td>$25</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser24()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum24" name="countnum24" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder24()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo24" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>飯團蛋</td>
+                    <td>$35</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser25()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum25" name="countnum25" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder25()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo25" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>飯團培根蛋</td>
+                    <td>$45</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser26()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum26" name="countnum26" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder26()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo26" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>飯團火腿蛋</td>
+                    <td>$45</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser27()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum27" name="countnum27" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder27()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo27" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>飯團鮪魚蛋</td>
+                    <td>$45</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser28()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum28" name="countnum28" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder28()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo28" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>飯團玉米蛋</td>
+                    <td>$45</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser29()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum29" name="countnum29" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder29()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo29" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>飯團肉鬆蛋</td>
+                    <td>$45</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser30()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum30" name="countnum30" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder30()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo30" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>飯團豬排蛋</td>
+                    <td>$50</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser31()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum31" name="countnum31" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder31()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo31" style="width:80px"></a></td>
+                </tr>
+
+            </table>
+            <table class="menu" id="menu4" cellpadding="11px">
+                <tr>
+                    <td rowspan="10" width="45px">
+                        <h1>饅頭類</h1>
+                    </td>
+                    <td></td>
+                    <td width="120px">
+                        <h4>品項</h4>
+                    </td>
+                    <td width="100px">
+                        <h4>單價</h4>
+                    </td>
+                    <td width="80px">
+                        <h4>數量</h4><!-- 數字加減 -->
+                    </td>
+                    <td width="100px">
+                        <h4>備註</h4></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="9" width="200px"><img src="4-1.jpeg" alt="" width="200" height="150"><img
+                            src="4-2.jpeg" alt="" width="200" height="150"> </td>
+                    <td>饅頭</td>
+                    <td>$12</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser32()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum32" name="countnum32" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder32()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo32" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>饅頭加蛋</td>
+                    <td>$22</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser33()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum33" name="countnum33" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder33()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo33" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>饅頭起司蛋</td>
+                    <td>$32</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser34()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum34" name="countnum34" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder34()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo34" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>饅頭培根蛋</td>
+                    <td>$32</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser35()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum35" name="countnum35" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder35()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo35" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>饅頭火腿蛋</td>
+                    <td>$32</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser36()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum36" name="countnum36" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder36()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo36" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>饅頭鮪魚蛋</td>
+                    <td>$32</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser37()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum37" name="countnum37" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder37()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo37" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>饅頭玉米蛋</td>
+                    <td>$32</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser38()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum38" name="countnum38" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder38()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo38" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>饅頭肉鬆蛋</td>
+                    <td>$32</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser39()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum39" name="countnum39" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder39()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo39" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>饅頭豬排蛋</td>
+                    <td>$37</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser40()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum40" name="countnum40" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder40()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo40" style="width:80px"></a></td>
+                </tr>
+
+            </table>
+            <table class="menu" id="menu5" cellpadding="11px">
+                <tr>
+                    <td rowspan="10" width="45px">
+                        <h1>蔥抓餅類</h1>
+                    </td>
+                    <td></td>
+                    <td width="120px">
+                        <h4>品項</h4>
+                    </td>
+                    <td width="100px">
+                        <h4>單價</h4>
+                    </td>
+                    <td width="80px">
+                        <h4>數量</h4><!-- 數字加減 -->
+                    </td>
+                    <td width="100px">
+                        <h4>備註</h4></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="9" width="200px"><img src="5-1.jpeg" alt="" width="200" height="150"><img
+                            src="5-2.jpeg" alt="" width="200" height="150"> </td>
+                    <td>蔥抓餅</td>
+                    <td>$20</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser41()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum41" name="countnum41" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder41()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo41" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蔥抓餅加蛋</td>
+                    <td>$30</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser42()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum42" name="countnum42" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder42()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo42" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蔥抓餅起司蛋</td>
+                    <td>$40</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser43()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum43" name="countnum43" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder43()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo43" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蔥抓餅培根蛋</td>
+                    <td>$40</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser44()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum44" name="countnum44" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder44()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo44" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蔥抓餅火腿蛋</td>
+                    <td>$40</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser45()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum45" name="countnum45" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder45()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo45" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蔥抓餅鮪魚蛋</td>
+                    <td>$40</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser46()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum46" name="countnum46" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder46()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo46" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蔥抓餅玉米蛋</td>
+                    <td>$40</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser47()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum47" name="countnum47" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder47()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo47" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蔥抓餅肉鬆蛋</td>
+                    <td>$40</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser48()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum48" name="countnum48" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder48()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo48" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蔥抓餅豬排蛋</td>
+                    <td>$45</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser49()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum49" name="countnum49" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder49()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo49" style="width:80px"></a></td>
+                </tr>
+
+            </table>
+            <table class="menu" id="menu6" cellpadding="11px">
+                <tr>
+                    <td rowspan="13" width="45px">
+                        <h1>其他</h1>
+                    </td>
+                    <td></td>
+                    <td width="120px">
+                        <h4>品項</h4>
+                    </td>
+                    <td width="100px">
+                        <h4>單價</h4>
+                    </td>
+                    <td width="80px">
+                        <h4>數量</h4><!-- 數字加減 -->
+                    </td>
+                    <td width="100px">
+                        <h4>備註</h4></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="12" width="200px"><img src="6-1.jpeg" alt="" width="200" height="150"><img
+                            src="6-2.jpeg" alt="" width="200" height="150"><img src="6-3.jpeg" alt="" width="200"
+                            height="150"> </td>
+                    <td>高麗菜水煎包</td>
+                    <td>$12</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser50()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum50" name="countnum50" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder50()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo50" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蔥肉水煎包</td>
+                    <td>$12</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser51()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum51" name="countnum51" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder51()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo51" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>韭菜盒</td>
+                    <td>$25</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser52()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum52" name="countnum52" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder52()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo52" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>鍋貼</td>
+                    <td>$5</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser53()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum53" name="countnum53" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder53()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo53" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蘿蔔糕一份</td>
+                    <td>$25</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser54()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum54" name="countnum54" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder54()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo54" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蘿蔔糕加蛋</td>
+                    <td>$35</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser55()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum55" name="countnum55" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder55()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo55" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>荷包蛋</td>
+                    <td>$10</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser56()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum56" name="countnum56" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder56()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo56" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>蔥花蛋</td>
+                    <td>$10</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser57()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum57" name="countnum57" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder57()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo57" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>肉包</td>
+                    <td>$15</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser58()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum58" name="countnum58" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder58()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo58" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>菜包</td>
+                    <td>$15</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser59()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum59" name="countnum59" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder59()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo59" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>鐵板麵</td>
+                    <td>$40</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser60()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum60" name="countnum60" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder60()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo60" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>鐵板麵加蛋</td>
+                    <td>$50</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser61()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum61" name="countnum61" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder61()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo61" style="width:80px"></a></td>
+                </tr>
+
+            </table>
+            <table class="menu" id="menu7" cellpadding="11px">
+                <tr>
+                    <td rowspan="8" width="45px">
+                        <h1>飲料類</h1>
+                    </td>
+                    <td></td>
+                    <td width="120px">
+                        <h4>品項</h4>
+                    </td>
+                    <td width="100px">
+                        <h4>單價</h4>
+                    </td>
+                    <td width="80px">
+                        <h4>數量</h4><!-- 數字加減 -->
+                    </td>
+                    <td width="100px">
+                        <h4>備註</h4></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="7" width="200px"><img src="7-1.jpeg" alt="" width="200" height="150"><img
+                            src="7-2.jpeg" alt="" width="200" height="150"> </td>
+                    <td>豆漿</td>
+                    <td>$15</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser62()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum62" name="countnum62" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder62()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo62" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>鹹豆漿</td>
+                    <td>$25</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser63()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum63" name="countnum63" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder63()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo63" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>鹹豆漿加蛋</td>
+                    <td>$35</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser64()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum64" name="countnum64" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder64()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo64" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>豆漿紅茶</td>
+                    <td>$20</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser65()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum65" name="countnum65" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder65()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo65" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>米漿</td>
+                    <td>$15</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser66()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum66" name="countnum66" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder66()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo66" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>紅茶</td>
+                    <td>$15</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser67()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum67" name="countnum67" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder67()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo67" style="width:80px"></a></td>
+                </tr>
+                <tr>
+                    <td>奶茶</td>
+                    <td>$20</td>
+                    <td>
+                        <input name="minus" type="button" onclick="minuser68()" value="-" style=" display:inline;" />
+                        <input type='text' id="countnum68" name="countnum68" value='0'
+                            style="width: 30px; display:inline;">
+                        <input name="plus" type="button" onclick="adder68()" value="+" style=" display:inline;" />
+                    </td>
+                    <td><input type="text" name="memo68" style="width:80px"></a></td>
+                </tr>
+            </table>
+            <h2>選擇分店</h2>
+            <br>
+            <div class="three">
+                <select name="column1" size=1 onChange="onChangeColumn1();">
+                <script>
+                    for (i=0; i<dataTree.length; i++)
+                        document.writeln("<option value=\"" + dataTree[i].name + "\">"+dataTree[i].name);
+                    </script>
+                <!-- <h5>地區:</h5> -->
+                </select>
+                <h5>縣市：</h5>
+                <select name="column2" size=1 onChange="onChangeColumn2();">
+                </select>
+                <h5>分店：</h5>
+                <select name="column3" size=1 onChange="onChangeColumn3();">
+                </select>
+                地址：<input type=text name=path size=60 ></td></tr> 
+            </div>
+            <div id="submit">
+                <input type="submit" class="submit" style="text-decoration: none; color:#FFF9EC" value="確認點餐">    
+                <!-- <div class="submit"><a href="Check.php" style="text-decoration: none; color:#FFF9EC">確認點餐</a> </div> -->
+            </div>
+        </menu>
+    </form>
+
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Add smooth scrolling to all links
+            $("a").on('click', function (event) {
+
+                // Make sure this.hash has a value before overriding default behavior
+                if (this.hash !== "") {
+                    // Prevent default anchor click behavior
+                    event.preventDefault();
+
+                    // Store hash
+                    var hash = this.hash;
+
+                    // Using jQuery's animate() method to add smooth page scroll
+                    // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function () {
+
+                        // Add hash (#) to URL when done scrolling (default click behavior)
+                        window.location.hash = hash;
+                    });
+                } // End if
+            });
+        });
+    </script>
+
+
+    <!-- 頁尾 -->
+    <footer>
+        <div id="footer">
+            <div id="about">
+                <h4>關於我們</h4>
+                <a href="">關於永和豆漿</a><br>
+                <a href="">常見問題</a><br>
+                <a href="">安心宣言</a><br>
+                <a href="">隱私權政策</a><br>
+                <a href="">服務條款</a><br>
+            </div>
+            <div id="member">
+                <h4>會員專區</h4>
+                <a href="">加入會員</a><br>
+                <a href="">據點查詢</a><br>
+                <a href="">訂閱電子報</a><br>
+            </div>
+            <div id="cooperate">
+                <h4>合作加盟</h4>
+                <a href="">加盟專區</a><br>
+                <a href="">異業合作</a><br>
+                <a href="">人才招募</a><br>
+            </div>
+            <div id="logo">
+                <!-- logo.jpg -->
+                <img src="LOGO3.svg" alt="">
+            </div>
+            <div id="connect">
+                <h4>聯絡我們</h4>
+                <a href=""><i class="fab fa-facebook-square"></i> Facebook</a><br>
+                <a href=""><i class="fab fa-instagram"></i> Instagram</a><br>
+                電話:0800-092-000<br>
+                <a href="">客服信箱</a><br>
+            </div>
+            <div id="time">
+                <h4>營業時間</h4>
+                周一至周日<br>
+                17:30-11:30 <br>
+            </div>
+        </div>
+        <hr>
+        <div id="copyright">Copyright © 2021 Yong Ho Dou Jiang. All rights reserved.</div>
+    </footer>
+</body>
+
+</html>

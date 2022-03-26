@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- body從第423行開始 -->
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>永和豆漿</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,900,900i" rel="stylesheet">
+    <link rel="icon" href="LOGO3.ico" type="image/x-icon" />
+    <script src="https://kit.fontawesome.com/8e919f91e0.js" crossorigin="anonymous"></script>
+    <style>
+        /*CSS*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+        }
+
+        h1 {
+            color: #C72828;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            color: #C72828;
+            font-size: 1.5rem;
+        }
+
+        h4 {
+            color: black;
+            font-size: 1rem;
+        }
+
+        h5 {
+            color: black;
+            font-size: 1rem;
+        }
+
+        h6 {
+            color: black;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1cm;
+        }
+
+        p {
+            font-size: 0.8rem;
+            color: #6D6F78;
+        }
+
+        /*back-to-top*/
+        #button {
+            display: inline-block;
+            background-color: #FF531D;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            border-radius: 4px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transition: background-color .3s,
+                opacity .5s, visibility .5s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+
+        #button::after {
+            content: "\f077";
+            font-family: FontAwesome;
+            font-weight: normal;
+            font-style: normal;
+            font-size: 2em;
+            line-height: 50px;
+            color: #FFF9EC;
+        }
+
+        #button:hover {
+            cursor: pointer;
+            background-color: #333;
+        }
+
+        #button:active {
+            background-color: #555;
+        }
+
+        #button.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 頁首 */
+        nav {
+            background: #FDED73;
+            padding: 5px 40px;
+            height: auto;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav ul li {
+            padding: 0;
+            cursor: pointer;
+        }
+
+        nav ul li.items {
+            position: relative;
+            width: auto;
+            margin: 0 16px;
+            text-align: center;
+            order: 3;
+        }
+
+        nav ul li.items:after {
+            position: absolute;
+            content: '';
+            left: 0;
+            bottom: 5px;
+            height: 2px;
+            width: 100%;
+            background: #C72828;
+            opacity: 0;
+            transition: all 0.2s linear;
+        }
+
+        nav ul li.items:hover:after {
+            opacity: 1;
+            bottom: -16px;
+        }
+
+        nav ul li.logo {
+            flex: 1;
+            cursor: default;
+            user-select: none;
+        }
+
+        nav ul li a {
+            color: #FF531D;
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: .4s;
+        }
+
+        nav ul li:hover a {
+            color: #C72828;
+
+        }
+
+        nav ul li i {
+            font-size: 23px;
+        }
+
+        nav ul li.btn {
+            display: none;
+        }
+
+        nav ul li.btn.hide i:before {
+            content: '\f00d';
+        }
+
+        @media all and (max-width: 900px) {
+            nav {
+                padding: 5px 30px;
+            }
+
+            nav ul li.items {
+                width: 100%;
+                display: none;
+            }
+
+            nav ul li.items.show {
+                display: block;
+            }
+
+            nav ul li.btn {
+                display: block;
+            }
+
+            nav ul li.items:hover {
+                border-radius: 5px;
+                box-shadow: inset 0 0 5px #C72828,
+                    inset 0 0 10px #C72828;
+            }
+
+            nav ul li.items:hover:after {
+                opacity: 0;
+            }
+        }
+
+        /* 頁尾 */
+        footer {
+            background: #465C69;
+            width: 100%;
+            height: auto;
+            /* position: relative;
+                bottom: 0%; */
+            margin: 0%;
+            color: #fff9ec;
+            padding-top: 20px;
+        }
+
+        footer h4 {
+            color: #fff9ec;
+        }
+
+        #footer {
+            display: flex;
+            flex-shrink: inherit;
+            justify-content: space-around;
+            margin: 0;
+            line-height: 2em;
+            padding-bottom: 20px;
+        }
+
+        #footer a {
+            text-decoration: none;
+            color: #fff9ec;
+        }
+
+        #logo {
+            width: 180px;
+            margin-top: 20px;
+        }
+
+        i {
+            width: 17px;
+        }
+
+        #copyright {
+            text-align: center;
+        }
+
+        @media screen and (max-width: 922px) {
+            #footer {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+        }
+
+        /* 首頁 */
+        article {
+            background-color: #FFF9EC;
+            width: 100%;
+            height: auto;
+            margin: 0 auto;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+
+        .bean1,
+        .bean2 {
+            background-color: #FFF9EC;
+            width: 80%;
+            margin: 0 auto;
+            height: auto;
+            justify-content: center;
+            flex-wrap: wrap;
+            display: flex;
+            position: relative;
+        }
+
+        .bean2 {
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+
+        #first1 {
+            text-align: right;
+            margin: 80px;
+        }
+
+        #first2 img {
+            border-radius: 50%;
+            width: 350px;
+            height: 350px;
+        }
+
+        #first3 {
+            width: 40%;
+            float: left;
+        }
+
+        #first3 img {
+            width: 100%;
+            height: 300px;
+            margin: auto;
+            display: block;
+        }
+
+
+        #first4 {
+            float: right;
+            width: 30%;
+            height: auto;
+            text-align: left;
+            background-color: white;
+            padding: 30px;
+        }
+
+
+        .bean3 {
+            background-color: #FDED73;
+            padding: 60px 100px;
+            height: auto;
+
+        }
+
+        #first7 {
+            width: 100%;
+        }
+
+        #first9 img {
+            width: 100%;
+            height: auto;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        #first8 {
+            width: 100%;
+            height: auto;
+        }
+
+        #first9 {
+            width: 70%;
+            display: block;
+            margin: 20px auto;
+            display: block;
+
+        }
+
+        #first10 {
+            width: 10%;
+            margin: auto;
+            display: block;
+        }
+
+        .bean4 {
+            background-color: #FFF9EC;
+            height: auto;
+            justify-content: center;
+            flex-wrap: wrap;
+            display: flex;
+            padding-top: 60px;
+
+        }
+
+        #first5 {
+            width: 30%;
+        }
+
+        #first5 img {
+            width: 100%;
+        }
+
+        #first6 {
+            width: 40%;
+            margin: 30px;
+            padding: 20px;
+        }
+
+
+        /*首頁按鈕*/
+        .but {
+            margin-top: 20px;
+            margin-right: 20px;
+            float: right;
+        }
+
+        .bu {
+            width: 30%;
+            margin-top: 20px;
+            margin-right: 20px;
+            float: right;
+        }
+
+        button {
+            border: none;
+            width: 120%;
+            height: auto;
+            text-align: center;
+            margin: 1%;
+            padding: 5% 4%;
+            background-color: #FF531D;
+            letter-spacing: 1px;
+            cursor: pointer;
+            pointer-events: auto;
+            border-radius: 40px;
+            transition: all 0.6s;
+        }
+
+        button a {
+            text-decoration: none;
+            font-size: 13px;
+            color: #FFF;
+        }
+
+        button:hover {
+            margin: 1%;
+            background-color: #C72828;
+            border-radius: 40px;
+            transition: .5s;
+        }
+    </style>
+</head>
+
+
+<body>
+    <!-- back to top -->
+    <a id="button"></a>
+    <script>
+        var btn = $('#button');
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 300) {
+                btn.addClass('show');
+            } else {
+                btn.removeClass('show');
+            }
+        });
+
+        btn.on('click', function (e) {
+            e.preventDefault();
+            $('html, body').animate({ scrollTop: 0 }, '300');
+        });
+    </script>
+    <!-- 頁首 -->
+    <nav>
+        <ul>
+            <li class="logo"><a href="Mainpage.html">
+                    <img src="LOGO4.svg" width="120px" height="70px" alt="brand">
+                </a></li>
+            <li class="items"><a href="Intro.html">簡介</a></li>
+            <li class="items"><a href="Menu.html">菜單</a></li>
+            <li class="items"><a href="judge.php">預約</a></li>
+            <li class="items"><a href="BranchStoreInFo.html">分店資訊</a></li>
+            <li class="items"><a href="judge_login.php"><span class="far fa-user"></a></li>
+            <li class="items"><a href="#">繁/ENG</a></li>
+            <li class="btn"><a href="#"><i class="fas fa-bars"></i></a></li>
+        </ul>
+    </nav>
+    <script>
+        $(document).ready(function () {
+            $('.btn').click(function () {
+                $('.items').toggleClass("show");
+                $('ul li').toggleClass("hide");
+            });
+        });
+    </script>
+
+    <!-- body -->
+    <article>
+        <div class="bean1">
+            <div id="first1">
+                <h2>永和豆漿</h2>
+                <h6>全台灣最有名的豆漿燒餅早餐店，分店遍佈全台灣。<br>
+                    復古的老招牌、師傅用心裹麵糰的身影、熟悉的滋味...... <br>
+                    濃郁醇實、富有焦香味的豆漿，多達30種口味的早餐、點心，<br>
+                    飄香半世紀，創造無數美好記憶，永遠吃不膩的好味道。
+                </h6>
+            </div>
+            <div id="first2">
+                <img src="page1.jpg" alt="">
+            </div>
+        </div>
+
+        <div class="bean2">
+            <div id="first3">
+                <img src="page2.jpg" alt="">
+            </div>
+            <div id="first4">
+                <h2>關於我們</h2>
+                <h6>永和豆漿，最早可以追溯到 1955 年的臺北永和頂溪地區。
+                    它泛指在這個地區以販賣豆漿為主的早餐店。
+                </h6>
+                <div class="but">
+                    <button> <a href="簡介.html">點擊看更多 &nbsp;<img src="按鈕.png" alt="" width="20px"
+                                height="20px"></a></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bean3">
+            <div id="first7">
+                <h2>點餐流程</h2>
+                <h6>xxxxxxxxxxxx</h6>
+            </div>
+            <div class="first8">
+                <div id="first9"><img src="page3.png" alt=""></div>
+                <div id="first10">
+                    <div>
+                        <button> <a href="judge.php">預約餐點 &nbsp;<img src="按鈕.png" alt="" width="20px"
+                                    height="20px"></a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+        <div class="bean4">
+            <div id="first5">
+                <img src="page4.png" alt="">
+            </div>
+            <div id="first6">
+                <h2>服務據點</h2>
+                <h6>全台共有 <strong>61家</strong>分店，分布在北、中、南、東部與離島地區。</h6>
+                <div class="bu">
+                    <button> <a href="BranchStoreInFo.html">點選看詳細分店資訊 &nbsp;<img src="按鈕.png" alt="" width="20px"
+                                height="20px"></a></button>
+                </div>
+            </div>
+        </div>
+    </article>
+    <!-- 頁尾 -->
+    <footer>
+        <footer>
+            <div id="footer">
+                <div id="about">
+                    <h4>關於我們</h4>
+                    <a href="">關於永和豆漿</a><br>
+                    <a href="">常見問題</a><br>
+                    <a href="">安心宣言</a><br>
+                    <a href="">隱私權政策</a><br>
+                    <a href="">服務條款</a><br>
+                </div>
+                <div id="member">
+                    <h4>會員專區</h4>
+                    <a href="">加入會員</a><br>
+                    <a href="">據點查詢</a><br>
+                    <a href="">訂閱電子報</a><br>
+                </div>
+                <div id="cooperate">
+                    <h4>合作加盟</h4>
+                    <a href="">加盟專區</a><br>
+                    <a href="">異業合作</a><br>
+                    <a href="">人才招募</a><br>
+                </div>
+                <div id="logo">
+                    <!-- logo.jpg -->
+                    <img src="LOGO3.svg" alt="">
+                </div>
+                <div id="connect">
+                    <h4>聯絡我們</h4>
+                    <a href=""><i class="fab fa-facebook-square"></i> Facebook</a><br>
+                    <a href=""><i class="fab fa-instagram"></i> Instagram</a><br>
+                    電話:0800-092-000<br>
+                    <a href="">客服信箱</a><br>
+                </div>
+                <div id="time">
+                    <h4>營業時間</h4>
+                    周一至周日<br>
+                    17:30-11:30 <br>
+                </div>
+            </div>
+            <hr>
+            <div id="copyright">Copyright © 2021 Yong Ho Dou Jiang. All rights reserved.</div>
+        </footer>
+</body>
+
+</html>

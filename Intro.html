@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- body從第294行開始 -->
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>永和豆漿</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,900,900i" rel="stylesheet">
+    <link rel="icon" href="LOGO3.ico" type="image/x-icon" />
+    <script src="https://kit.fontawesome.com/8e919f91e0.js" crossorigin="anonymous"></script>
+    <style>
+        /*CSS*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+        }
+
+        h1 {
+            color: #C72828;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            color: #C72828;
+            font-size: 1.5rem;
+        }
+
+        h4 {
+            color: black;
+            font-size: 1rem;
+        }
+
+        h5 {
+            color: black;
+            font-size: 1rem;
+        }
+
+        h6 {
+            color: black;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1cm;
+        }
+
+        p {
+            font-size: 0.8rem;
+            color: #6D6F78;
+        }
+
+        /*back-to-top*/
+        #button {
+            display: inline-block;
+            background-color: #FF531D;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            border-radius: 4px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transition: background-color .3s,
+                opacity .5s, visibility .5s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+
+        #button::after {
+            content: "\f077";
+            font-family: FontAwesome;
+            font-weight: normal;
+            font-style: normal;
+            font-size: 2em;
+            line-height: 50px;
+            color: #FFF9EC;
+        }
+
+        #button:hover {
+            cursor: pointer;
+            background-color: #333;
+        }
+
+        #button:active {
+            background-color: #555;
+        }
+
+        #button.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 頁首 */
+        nav {
+            background: #FDED73;
+            padding: 5px 40px;
+            height: auto;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav ul li {
+            padding: 0;
+            cursor: pointer;
+        }
+
+        nav ul li.items {
+            position: relative;
+            width: auto;
+            margin: 0 16px;
+            text-align: center;
+            order: 3;
+        }
+
+        nav ul li.items:after {
+            position: absolute;
+            content: '';
+            left: 0;
+            bottom: 5px;
+            height: 2px;
+            width: 100%;
+            background: #C72828;
+            opacity: 0;
+            transition: all 0.2s linear;
+        }
+
+        nav ul li.items:hover:after {
+            opacity: 1;
+            bottom: -16px;
+        }
+
+        nav ul li.logo {
+            flex: 1;
+            cursor: default;
+            user-select: none;
+        }
+
+        nav ul li a {
+            color: #FF531D;
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: .4s;
+        }
+
+        nav ul li:hover a {
+            color: #C72828;
+
+        }
+
+        nav ul li i {
+            font-size: 23px;
+        }
+
+        nav ul li.btn {
+            display: none;
+        }
+
+        nav ul li.btn.hide i:before {
+            content: '\f00d';
+        }
+
+        @media all and (max-width: 900px) {
+            nav {
+                padding: 5px 30px;
+            }
+
+            nav ul li.items {
+                width: 100%;
+                display: none;
+            }
+
+            nav ul li.items.show {
+                display: block;
+            }
+
+            nav ul li.btn {
+                display: block;
+            }
+
+            nav ul li.items:hover {
+                border-radius: 5px;
+                box-shadow: inset 0 0 5px #C72828,
+                    inset 0 0 10px #C72828;
+            }
+
+            nav ul li.items:hover:after {
+                opacity: 0;
+            }
+        }
+
+        /* 頁尾 */
+        footer {
+            background: #465C69;
+            width: 100%;
+            height: auto;
+            /* position: relative;
+                bottom: 0%; */
+            margin: 0%;
+            color: #fff9ec;
+            padding-top: 20px;
+        }
+
+        footer h4 {
+            color: #fff9ec;
+        }
+
+        #footer {
+            display: flex;
+            flex-shrink: inherit;
+            justify-content: space-around;
+            margin: 0;
+            line-height: 2em;
+            padding-bottom: 20px;
+        }
+
+        #footer a {
+            text-decoration: none;
+            color: #fff9ec;
+        }
+
+        #logo {
+            width: 180px;
+            margin-top: 20px;
+        }
+
+        i {
+            width: 17px;
+        }
+
+        #copyright {
+            text-align: center;
+        }
+
+        @media screen and (max-width: 922px) {
+            #footer {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+        }
+
+        /*簡介*/
+        .about {
+            background-color: #FFEFDF;
+            width: 80%;
+            height: auto;
+            margin: 100px 10%;
+            justify-content: center;
+            flex-wrap: wrap;
+            display: flex;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .title {
+            text-align: center;
+            width: 100%;
+        }
+
+        .pic img {
+            width: 400px;
+            height: 300px;
+            margin: 20px;
+        }
+
+        .pic {
+            padding: 20px 0;
+
+        }
+
+        .word {
+            width: 500px;
+            margin: 20px;
+            text-align: left;
+            padding: 20px;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- back to top -->
+    <a id="button"></a>
+    <script>
+        var btn = $('#button');
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 300) {
+                btn.addClass('show');
+            } else {
+                btn.removeClass('show');
+            }
+        });
+
+        btn.on('click', function (e) {
+            e.preventDefault();
+            $('html, body').animate({ scrollTop: 0 }, '300');
+        });
+    </script>
+    <!-- 頁首 -->
+    <nav>
+        <ul>
+            <li class="logo"><a href="Mainpage.html">
+                    <img src="LOGO4.svg" width="120px" height="70px" alt="brand">
+                </a></li>
+            <li class="items"><a href="Intro.html">簡介</a></li>
+            <li class="items"><a href="Menu.html">菜單</a></li>
+            <li class="items"><a href="judge.php">預約</a></li>
+            <li class="items"><a href="BranchStoreInFo.html">分店資訊</a></li>
+            <li class="items"><a href="judge_login.php"><span class="far fa-user"></a></li>
+            <li class="items"><a href="#">繁/ENG</a></li>
+            <li class="btn"><a href="#"><i class="fas fa-bars"></i></a></li>
+        </ul>
+    </nav>
+    <script>
+        $(document).ready(function () {
+            $('.btn').click(function () {
+                $('.items').toggleClass("show");
+                $('ul li').toggleClass("hide");
+            });
+        });
+    </script>
+
+
+    <!--body-->
+    <div class="about">
+        <div class="title">
+            <h1>關於我們</h1><br>
+        </div>
+        <div class="pic"> <img src="intro1.jpeg" alt=""></div>
+        <div class="word">
+            <h2>緣起</h2>
+            <h6>永和豆漿，最早可以追溯到 1955 年的臺北永和頂溪地區。它泛指在這個地區以販賣豆漿為主的早餐店 ，而非特定某一個叫做「永和豆漿」的店家。據說，店家的成立是由一群先後從
+                華北遷移至臺灣的退伍老兵
+                ，為謀求生計而各自創立；一開始其實也就像普通的早餐店一樣，磨豆漿、烤燒餅、炸油條等，用簡單的推車沿街叫賣。之後規模逐漸擴大，名聲也逐漸響亮，直至今日。十分有趣的是，
+                其中直至今日仍有營業且最有名的店家，名字卻和永和無關，是開設在永和路二段上的「世界豆漿大王」。
+                由退伍士兵李雲增和王俊傑共同創立，後來王家退出經營，由李家後代繼承創始本店，並於西園路、松隆路與民族西路各有一家分店。
+            </h6>
+        </div>
+        <div class="word">
+            <h2>發展</h2>
+            <h6>遙想當年中華少棒在美國的傲人成績，帶動了觀賞棒球比賽的風氣。任何老一輩的的記憶中，必定會有與他人擠在電視前面，收看棒球實況轉播直至清晨的景象吧。據說這正是間接導致永和豆漿大王開始興盛的原因
+                ：因為當時最早開門的就是永和中正橋頭的豆漿店，而其他店家都還沒開始營業，因此大家就開始漸漸習慣，看完電視棒球賽轉播去永和吃豆漿。也有一種說法是，中正橋興建之時，建築工人都在橋邊的豆漿店享用早餐。興建完畢後，工人奔走回鄉，卻難忘美味的豆漿滋味。
+            </h6>
+        </div>
+        <div class="pic"> <img src="intro2.jpg" alt=""></div>
+        <div class="pic"> <img src="intro3.jpg" alt=""></div>
+        <div class="word">
+            <h2>興盛</h2>
+            <h6>由於看好永和豆漿的巨大商機，當時正在從事仲介的林炳生於 1985 年，成立了臺灣弘奇食品有限公司；並且搶先註冊了「永和」商標，真正創立了「永和豆漿」的品牌，開啟了以知識產權保護「永和」之名的首例。此後，其在
+                1995 年將此商標於中國註冊，並於 2000 年成立上海弘奇食品有限公司，邁出了經營中國市場的步伐。直自今日，連鎖店已多達數百家。另外還有一家於 1996
+                年創立的「上海永和豆漿大王餐飲有限公司」，由林猷澳為首，同樣販售中式早餐，於 1997 年在中國註冊了「永和大王」的商標。因為被
+                上海弘奇食品有限公司認為侵害其商標的相關權利，變更為「上海永和大王餐飲有限公司」，至今也有百餘家連鎖店，也同樣擁有不可忽視的影響力。
+            </h6>
+        </div>
+        <div class="word">
+            <h2>結論</h2>
+            <h6>伴隨時代的遷移與世代的交替，某些曾經深埋於與上一代心中的記憶，終將伴隨其埋入歷史的荒塚。豆漿逐漸被紅茶與奶茶取代，飯團、燒餅和油條也慢慢變成漢堡、 土司和三明治。
+                然而在時代潮流下，卻有一個名為「永和豆漿大王」的名字逆流而上，濺起一陣不容忽視的水花。這個名字，值得被我們珍視、記憶與保存。
+            </h6>
+        </div>
+        <div class="pic"> <img src="intro4.jpeg" alt=""></div>
+
+    </div>
+    <!-- 頁尾 -->
+    <footer>
+        <div id="footer">
+            <div id="about">
+                <h4>關於我們</h4>
+                <a href="">關於永和豆漿</a><br>
+                <a href="">常見問題</a><br>
+                <a href="">安心宣言</a><br>
+                <a href="">隱私權政策</a><br>
+                <a href="">服務條款</a><br>
+            </div>
+            <div id="member">
+                <h4>會員專區</h4>
+                <a href="">加入會員</a><br>
+                <a href="">據點查詢</a><br>
+                <a href="">訂閱電子報</a><br>
+            </div>
+            <div id="cooperate">
+                <h4>合作加盟</h4>
+                <a href="">加盟專區</a><br>
+                <a href="">異業合作</a><br>
+                <a href="">人才招募</a><br>
+            </div>
+            <div id="logo">
+                <!-- logo.jpg -->
+                <img src="LOGO3.svg" alt="">
+            </div>
+            <div id="connect">
+                <h4>聯絡我們</h4>
+                <a href=""><i class="fab fa-facebook-square"></i> Facebook</a><br>
+                <a href=""><i class="fab fa-instagram"></i> Instagram</a><br>
+                電話:0800-092-000<br>
+                <a href="">客服信箱</a><br>
+            </div>
+            <div id="time">
+                <h4>營業時間</h4>
+                周一至周日<br>
+                17:30-11:30 <br>
+            </div>
+        </div>
+        <hr>
+        <div id="copyright">Copyright © 2021 Yong Ho Dou Jiang. All rights reserved.</div>
+    </footer>
+
+</body>
+
+</html>

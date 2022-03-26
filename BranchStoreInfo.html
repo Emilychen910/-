@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,900,900i" rel="stylesheet">
+    <link rel="icon" href="LOGO3.ico" type="image/x-icon" />
+    <title>Branch Store Information</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        /*back-to-top*/
+        #button {
+            display: inline-block;
+            background-color: #FF531D;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            border-radius: 4px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transition: background-color .3s,
+                opacity .5s, visibility .5s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+        #button::after {
+            content: "\f077";
+            font-family: FontAwesome;
+            font-weight: normal;
+            font-style: normal;
+            font-size: 2em;
+            line-height: 50px;
+            color: #FFF9EC;
+        }
+        #button:hover {
+            cursor: pointer;
+            background-color: #333;
+        }
+        #button:active {
+            background-color: #555;
+        }
+        #button.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        /* Header */
+        nav {
+            background: #FDED73;
+            padding: 5px 40px;
+            height: auto;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+        nav ul li {
+            padding: 0;
+            cursor: pointer;
+        }
+        nav ul li.items {
+            position: relative;
+            width: auto;
+            margin: 0 16px;
+            text-align: center;
+            order: 3;
+        }
+        nav ul li.items:after {
+            position: absolute;
+            content: '';
+            left: 0;
+            bottom: 5px;
+            height: 2px;
+            width: 100%;
+            background: #C72828;
+            opacity: 0;
+            transition: all 0.2s linear;
+        }
+        nav ul li.items:hover:after {
+            opacity: 1;
+            bottom: -16px;
+        }
+        nav ul li.logo {
+            flex: 1;
+            cursor: default;
+            user-select: none;
+        }
+        nav ul li a {
+            color: #FF531D;
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: .4s;
+        }
+        nav ul li:hover a {
+            color: #C72828;
+        }
+        nav ul li i {
+            font-size: 23px;
+        }
+        nav ul li.btn {
+            display: none;
+        }
+        nav ul li.btn.hide i:before {
+            content: '\f00d';
+        }
+        @media all and (max-width: 900px) {
+            nav {
+                padding: 5px 30px;
+            }
+            nav ul li.items {
+                width: 100%;
+                display: none;
+            }
+            nav ul li.items.show {
+                display: block;
+            }
+            nav ul li.btn {
+                display: block;
+            }
+            nav ul li.items:hover {
+                border-radius: 5px;
+                box-shadow: inset 0 0 5px #C72828,
+                    inset 0 0 10px #C72828;
+            }
+            nav ul li.items:hover:after {
+                opacity: 0;
+            }
+        } 
+        /* Content */
+        .all{
+            background: #FFEFDF;
+            border-radius: 20px;
+            width: 50%;
+            margin: 100px auto;
+            padding: 20px;
+        }
+        .phonecall{
+            width: 70%;
+            font-weight: bold;
+            margin: auto;
+        }
+        .call{
+            font-size: 1.6em;
+            color: #FF531D;
+        }
+        .phone{
+            font-size: 1.6em;
+            text-align: center;
+            letter-spacing: 0.2em;
+            padding-bottom: 20px;
+        }
+        hr{
+            background-color: #E5E5E5;
+            border: none;
+            height: 1px;
+            width: 80%;
+            margin: auto;
+        }
+        .accordion{
+            width: 80%;
+            max-width: 1000px;
+            margin: 2rem auto;
+        }
+        .accordion-item{
+            background: white;
+            color:salmon;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 5px 0 darkblue;
+        }
+        .accordion-item-header{
+            padding: 0.5rem 3rem 0.5rem 1rem;
+            min-height: 3.5rem;
+            line-height: 1.25rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            font-size: 1.4em;
+        }
+        .accordion-item-header::after{
+            content: "\002B";
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            transition: transform 0.2s ease-in-out;
+        }
+        .accordion-item-header.active::after{
+            content: "\2212";
+        }.accordion-item-body{
+            display: none;
+            padding: 1rem;
+            line-height: 1.5rem;
+            border-top: 1px solid ;
+            border-image: linear-gradient(to right, #008F68, #fae042) 1;
+            transition: max-height 0.2s ease-out;
+        }
+        .storecontent{
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+        .accordion-item-header.active + .accordion-item-body{
+            display: block;
+            max-height: auto;
+        }
+        .store{
+            display: flex;
+            justify-content: flex-start;
+            width: 45%;
+            height: 300px;
+            flex-direction: row;
+            align-items: stretch;
+            line-height: 1.2em;
+            margin-left: 20px;
+        }
+        .section{
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        .storedetail{
+            padding: 10px;
+            line-height: 1.6em;
+        }
+        .addphone{
+            word-break: break-all;
+            font-size: 14px;
+        }
+        iframe{
+            width: 250px;
+            height: 200px;
+            padding-top: 5px;
+        }
+        /* Footer */
+        footer{
+            background:#465C69 ;
+            width: 100%;
+            height: auto;
+            /* position: relative;
+            bottom: 0%; */
+            margin: 0%;
+            color: #FFF9EC;
+            padding-top: 20px;
+        }
+        #footer{
+            display: flex;
+            flex-shrink: inherit;
+            justify-content: space-around;
+            margin: 0;
+            line-height: 2em;
+            padding-bottom: 20px;
+        }
+        #footer a{
+            text-decoration: none;
+            color: #FFF9EC;
+        }
+        #logo{
+            width: 180px;
+            margin-top: 20px;
+        }
+        i{
+            width: 17px;
+        }
+        #copyright{
+            text-align: center;
+        }
+        @media screen and (max-width:767px){
+            html{
+                font-size: 14px;
+            }
+            #footer{
+                width: 100%;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- back to top -->
+    <a id="button"></a>
+    <script>
+        var btn = $('#button');
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 300) {
+                btn.addClass('show');
+            } else {
+                btn.removeClass('show');
+            }
+        });
+
+        btn.on('click', function (e) {
+            e.preventDefault();
+            $('html, body').animate({ scrollTop: 0 }, '300');
+        });
+    </script>
+    <!-- Header -->
+    <nav>
+        <ul>
+            <li class="logo"><a href="Mainpage.html">
+                    <img src="LOGO4.svg" width="120px" height="70px" alt="brand">
+                </a></li>
+            <li class="items"><a href="Intro.html">簡介</a></li>
+            <li class="items"><a href="Menu.html">菜單</a></li>
+            <li class="items"><a href="judge.php">預約</a></li>
+            <li class="items"><a href="BranchStoreInFo.html">分店資訊</a></li>
+            <li class="items"><a href="judge_login.php"><span class="far fa-user"></a></li>
+            <li class="items"><a href="#">繁/ENG</a></li>
+            <li class="btn"><a href="#"><i class="fas fa-bars"></i></a></li>
+        </ul>
+    </nav>
+    <script>
+        $(document).ready(function () {
+            $('.btn').click(function () {
+                $('.items').toggleClass("show");
+                $('ul li').toggleClass("hide");
+            });
+        });
+    </script>
+    <!-- Content -->
+    <div class="all">
+        <div class="phonecall">
+            <div class="call">加盟專線：</div>
+            <div class="phone">0800-092-000</div>
+        </div>
+        <hr>
+        <div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-item-header">
+                        北部
+                    </div>
+                    <div class="accordion-item-body">
+                        <div class="accordion-item-body-content">
+                            <div class="section"><h3>台北市</h3></div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">北投店</h3>
+                                        <p class="addphone">
+                                            112台北市北投區公館路27號<br>
+                                            (02)2892-5895
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3612.0755786537025!2d121.50081452183151!3d25.133135551699212!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442ae5a799904b5%3A0x4a002a1da86832a!2z5YyX5oqVIC0g6IiI56aP6KiY5rC45ZKM6LGG5ry_5aSn546L!5e0!3m2!1szh-TW!2stw!4v1622624438035!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">羅斯福店</h3>
+                                        <p class="addphone">
+                                            100台北市中正區羅斯福路三段244巷2號<br>
+                                            (02)2364-3733
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.499299725454!2d121.52911995080208!3d25.017124183901558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a98c0ae94aaf%3A0xe65bf4ef59db47fc!2z5rC45ZKM6LGG5ry_!5e0!3m2!1szh-TW!2stw!4v1622626265353!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">萬華店</h3>
+                                        <p class="addphone">
+                                            108台北市萬華區萬大路474號<br>
+                                            (02)2303-5335
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14462.951126142152!2d121.49389928472193!3d25.009024574967373!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442ab0a83a7028d%3A0x1f9b01b261d70d7d!2z5rC45ZKM6LGG5ry_5aSn546L!5e0!3m2!1szh-TW!2stw!4v1622705299926!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">長春店</h3>
+                                        <p class="addphone">
+                                            104台北市中山區長春路352號<br>
+                                            (02)2717-5511
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.4000784913837!2d121.54225479999998!3d25.0544256!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442abe0c92eaaf3%3A0x69484002f3f06ffb!2z5rSq6KiY6LGG5ry_5aSn546L!5e0!3m2!1szh-TW!2stw!4v1622721433451!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">東門店</h3>
+                                        <p class="addphone">
+                                            100台北市中正區臨沂街75巷14號1樓<br>
+                                            (02)2327-8855
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.9847999342396!2d121.52955659999998!3d25.0345899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9f99c9c2267%3A0xbdf04088390d2e15!2z5p2x6ZaA6LGG5ry_!5e0!3m2!1szh-TW!2stw!4v1622721469234!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">松山店</h3>
+                                        <p class="addphone">
+                                            105台北市松區八德路四段687-697號<br>
+                                            (02)2765-2558
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.5268304054025!2d121.5764267!3d25.050127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442ab9bfd9ce57d%3A0xdef1e8aa05db3c7f!2z5rC45ZKM6LGG5ry_!5e0!3m2!1szh-TW!2stw!4v1622721509899!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">新北市</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">永和店</h3>
+                                        <p class="addphone">
+                                            234新北市永和區永貞路393號<br>
+                                            (02)2920-5926
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7231.489174205894!2d121.50352253488768!3d25.0087934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9c4a4bc3e33%3A0xd5778a00950b3712!2z5rC45ZKM6LGG5ry_!5e0!3m2!1szh-TW!2stw!4v1622721577241!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">蘆洲店</h3>
+                                        <p class="addphone">
+                                            247新北市蘆洲區光華路18號<br>
+                                            (02)2875-1653
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.542091953991!2d121.46963699999999!3d25.0835048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a8c9cbd1620f%3A0xb9e7b9bac5549854!2z5rC45ZKM6LGG5ry_5aSn546L!5e0!3m2!1szh-TW!2stw!4v1622721608485!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">新店店</h3>
+                                        <p class="addphone">
+                                            231新北市新店區中正路300號<br>
+                                            (02)2915-6791
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3616.7508446152574!2d121.53765599999998!3d24.9745903!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346801f5e05186dd%3A0xfbe4bf5a571dec92!2z5rC45ZKM5aSn5LiW55WM6LGG5ry_!5e0!3m2!1szh-TW!2stw!4v1622721640906!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">瑞芳店</h3>
+                                        <p class="addphone">
+                                            224新北市瑞芳區明燈路三段51號<br>
+                                            (02)2497-2498
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3612.819329191427!2d121.8063535!3d25.1079765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x345d4ff76a9faf57%3A0xe39d1d4ee8881292!2z55Ge6Iqz5rC45ZKM6LGG5ry_!5e0!3m2!1szh-TW!2stw!4v1622721672346!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">基隆市</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">暖暖店</h3>
+                                        <p class="addphone">
+                                            205基隆市暖暖區東勢街1-14號<br>
+                                            (02)459-4209
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.038294731728!2d121.73399361744387!3d25.10056500000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x345d5101a4c3bdb3%3A0xc60dc6edd12bb04c!2z5rC45ZKM6LGG5ry_5aSn546L!5e0!3m2!1szh-TW!2stw!4v1622721748828!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">山東店</h3>
+                                        <p class="addphone">
+                                            202基隆市中正區中正路804號<br>
+                                            (02)2462-9583
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28892.334547274822!2d121.75408843955077!3d25.15117670000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x345d4f06b099661d%3A0x49d80e7b5e431a38!2z5bGx5p2x5by15a626LGG5ry_!5e0!3m2!1szh-TW!2stw!4v1622721781359!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">桃園市</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">春日店</h3>
+                                        <p class="addphone">
+                                            330桃園市桃園區春日路227號<br>
+                                            (03)336-6199
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28927.72509067719!2d121.30688909999999!3d25.0012836!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34681fb3a3b1f66d%3A0xecee4afecdfefa2f!2z5pil5pel6Lev5rC45ZKM6LGG5ry_!5e0!3m2!1szh-TW!2stw!4v1622721814755!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">中壢店</h3>
+                                        <p class="addphone">
+                                            320桃園市中壢區中山路108號<br>
+                                            (03)422 -1783
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d115753.63937880279!2d121.15585415820313!3d24.955863900000008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3468224831145f81%3A0x641724b9921c1bb9!2z5rC45ZKM6LGG5ry_5aSn546L!5e0!3m2!1szh-TW!2stw!4v1622721876924!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">新竹市/縣</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">竹北店</h3>
+                                        <p class="addphone">
+                                            302新竹縣竹北市博愛街349號<br>
+                                            (03)551-6833
+                                        </p>
+                                        <div class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.811557172587!2d121.00835190000001!3d24.836117200000018!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346836957b7527cd%3A0xb4770d47b9a44011!2z56u55YyX6LGG5ry_5aSn546L5pep6aSQ!5e0!3m2!1szh-TW!2stw!4v1622721903921!5m2!1szh-TW!2stw" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">新竹店</h3>
+                                        <p class="addphone">
+                                            300新竹市東區民權路73號<br>
+                                            (03)543-8823
+                                        </p>
+                                        <div class="map">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">光復店</h3>
+                                        <p class="addphone">
+                                            300新竹市東區光復路一段438號<br>
+                                            (03)578-7895
+                                        </p>
+                                        <div class="map">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">宜蘭縣</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">復興店</h3>
+                                        <p class="addphone">
+                                            260宜蘭縣宜蘭市復興路一段66號<br>
+                                            (03)933-0981
+                                        </p>
+                                        <div class="map">mapmapmap</div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">大福店</h3>
+                                        <p class="addphone">
+                                            263宜蘭縣壯圍鄉壯濱路六段272號<br>
+                                            (03)930-6780
+                                        </p>
+                                        <div class="map">mapmapmap</div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">羅東店</h3>
+                                        <p class="addphone">
+                                            265宜蘭縣羅東鎮中華路71號<br>
+                                            (03)932-4832
+                                        </p>
+                                        <div class="map">mapmapmap</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-item-header">
+                        中部
+                    </div>
+                    <div class="accordion-item-body">
+                        <div class="accordion-item-body-content">
+                            <div class="section">苗栗縣</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">苗栗中山店</h3>
+                                        <p class="addphone">
+                                            360苗栗縣苗栗市中山路62號<br>
+                                            (03)727-5660
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">後龍店</h3>
+                                        <p class="addphone">
+                                            356苗栗縣後龍鎮中山路175號<br>
+                                            (03)772-7129
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">公館大同店</h3>
+                                        <p class="addphone">
+                                            363苗栗縣公館鄉大同路111號<br>
+                                            (03)723-8690
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">台中市</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">太平店</h3>
+                                        <p class="addphone">
+                                            411台中市太平區中山路一段284號<br>
+                                            (04)2391-8520
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">龍井店</h3>
+                                        <p class="addphone">
+                                            434台中市龍井區台灣大道五段3巷23號<br>
+                                            (04)2632-7685
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">沙鹿店</h3>
+                                        <p class="addphone">
+                                            433台中市沙鹿區中山路448號<br>
+                                            (04)2662-5808
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">豐原店</h3>
+                                        <p class="addphone">
+                                            420台中市豐原區三豐路一段216號<br>
+                                            (04)2520-4286
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">彰化縣</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">旭光店</h3>
+                                        <p class="addphone">
+                                            500彰化縣彰化市旭光路155號<br>
+                                            (04)728-6116
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">員林店</h3>
+                                        <p class="addphone">
+                                            510彰化縣員林市浮圳路二段285號<br>
+                                            (04)8475-2239
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">北斗店</h3>
+                                        <p class="addphone">
+                                            521彰化縣北斗鎮中華路295號<br>
+                                            (04)887-5240
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">社頭店</h3>
+                                        <p class="addphone">
+                                            511彰化縣社頭鄉山腳路二段812號<br>
+                                            (04)872-8721
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">南投縣</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">光明店</h3>
+                                        <p class="addphone">
+                                            540南投縣南投市光明一路60號之6號<br>
+                                            (04)9353-8525
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">埔里店</h3>
+                                        <p class="addphone">
+                                            545南投縣埔里鎮中山路三段241號<br>
+                                            (04)9299-5085
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">雲林縣</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">虎尾中正店</h3>
+                                        <p class="addphone">
+                                            632雲林縣虎尾鎮中正路273號<br>
+                                            (05)633-8660
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">虎尾店</h3>
+                                        <p class="addphone">
+                                            632雲林縣虎尾鎮林森路二段270號<br>
+                                            (05)636-4220
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-item-header">
+                        南部
+                    </div>
+                    <div class="accordion-item-body">
+                        <div class="accordion-item-body-content">
+                            <div class="section">嘉義市/縣</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">博愛店</h3>
+                                        <p class="addphone">
+                                            600嘉義市西區博愛路二段11號<br>
+                                            (05)234-9666
+                                        </p>
+                                        <div class="map">民族店</div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">朴子店</h3>
+                                        <p class="addphone">
+                                            600嘉義市東區民族路41號<br>
+                                            (05)275-0357
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename"></h3>
+                                        <p class="addphone">
+                                            613嘉義縣朴子市開元路168號<br>
+                                            (05)370-5270
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">台南市</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">麻豆店</h3>
+                                        <p class="addphone">
+                                            721台南市麻豆區中山路46號<br>
+                                            (06)571-8997
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">佳里店</h3>
+                                        <p class="addphone">
+                                            722台南市佳里區進學路242號<br>
+                                            (06)722-9984
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">公園店</h3>
+                                        <p class="addphone">
+                                            700台南市中西區公園路123號<br>
+                                            (06)705-4685
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">復國店</h3>
+                                        <p class="addphone">
+                                            710台南市永康區復國一路410號<br>
+                                            (06)202-3662
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">文成店</h3>
+                                        <p class="addphone">
+                                            704台南市北區文成一路148號<br>
+                                            (06)274-1639
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">仁德店</h3>
+                                        <p class="addphone">
+                                            717台南市仁德區文賢路二段6號<br>
+                                            (06)215-6705
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">高雄市</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">旗山店</h3>
+                                        <p class="addphone">
+                                            842高雄市旗山區瑞吉里延平一路與中華路交叉路口<br>
+                                            (07)662-7710
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">左營店</h3>
+                                        <p class="addphone">
+                                            813高雄市左營區左營大路357號<br>
+                                            (07)585-1250
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">三民店</h3>
+                                        <p class="addphone">
+                                            807高雄市三民區九如一路976號<br>
+                                            (07)380-7448
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">華夏店</h3>
+                                        <p class="addphone">
+                                            813高雄市左營區華夏路690號<br>
+                                            (07)343-1615
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">屏東縣</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">內埔店</h3>
+                                        <p class="addphone">
+                                            912屏東縣內埔鄉光明路268號<br>
+                                            (08)779-4168
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">屏東店</h3>
+                                        <p class="addphone">
+                                            900屏東縣屏東市民族路287號<br>
+                                            (08)732-2163
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-item-header">
+                        東部
+                    </div>
+                    <div class="accordion-item-body">
+                        <div class="accordion-item-body-content">
+                            <div class="section">花蓮縣</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">吉安店</h3>
+                                        <p class="addphone">
+                                            973花蓮縣吉安鄉台11線253號<br>
+                                            (03)851-4166
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">壽豐店</h3>
+                                        <p class="addphone">
+                                            974花蓮縣壽豐鄉中山路二段303號<br>
+                                            (03)866-3600
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">博愛店</h3>
+                                        <p class="addphone">
+                                            970花蓮縣花蓮市博愛街263號<br>
+                                            (03)832-2621
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">台東縣</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">正永店</h3>
+                                        <p class="addphone">
+                                            950台東縣台東市中山路405號<br>
+                                            (08)935-6648
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">傳廣店</h3>
+                                        <p class="addphone">
+                                            950台東縣台東市傳廣路229號<br>
+                                            (08)931-0011
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">關山店</h3>
+                                        <p class="addphone">
+                                            950台東縣台東市長沙街208號<br>
+                                            (08)933-9933
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-item-header">
+                        離島
+                    </div>
+                    <div class="accordion-item-body">
+                        <div class="accordion-item-body-content">
+                            <div class="section">金門縣</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">金城店</h3>
+                                        <p class="addphone">
+                                            893金門縣金城鎮光前路77號<br>
+                                            (08)232-8461
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">光前店</h3>
+                                        <p class="addphone">
+                                            893金門縣金城鎮光前路82號<br>
+                                            (08)232-5107
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">連江縣</div>
+                            <div class="storecontent">
+                                <div class="store">
+                                    <div class="storedetail">
+                                        <h3 class="storename">東引店</h3>
+                                        <p class="addphone">
+                                            212連江縣東引鄉中柳村42號<br>
+                                            (08)367-7111
+                                        </p>
+                                        <div class="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                const accordionItemHeaders = document.querySelectorAll(".accordion-item-header");
+                accordionItemHeaders.forEach(accordionItemHeaders => {
+                    accordionItemHeaders.addEventListener("click",event =>{
+                        const currentlyActiveAccordionItemHeader = document.querySelector(".accordion-item-header.active");
+                        if(currentlyActiveAccordionItemHeader && currentlyActiveAccordionItemHeader!==accordionItemHeaders){
+                            currentlyActiveAccordionItemHeader.classList.toggle("active");
+                            currentlyActiveAccordionItemHeader.nextElementSibling.style.maxHeight = 0;
+                        }
+
+                        accordionItemHeaders.classList.toggle("active");
+                        const accordionItemBody = accordionItemHeaders.nextElementSibling;
+                        if(accordionItemHeaders.classList.contains("active")){
+                            accordionItemBody.style.maxHeight = accordionItemBody.scrollHeight + "px";
+                        }else{
+                            accordionItemBody.style.maxHeight = 0;
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <div id="footer">
+            <div id="about">
+                <h4>關於我們</h4>
+                <a href="">關於永和豆漿</a><br>
+                <a href="">常見問題</a><br>
+                <a href="">安心宣言</a><br>
+                <a href="">隱私權政策</a><br>
+                <a href="">服務條款</a><br>
+            </div>
+            <div id="member">
+                <h4>會員專區</h4>
+                <a href="">加入會員</a><br>
+                <a href="">據點查詢</a><br>
+                <a href="">訂閱電子報</a><br>
+            </div>
+            <div id="cooperate">
+                <h4>合作加盟</h4>
+                <a href="">加盟專區</a><br>
+                <a href="">異業合作</a><br>
+                <a href="">人才招募</a><br>
+            </div>
+            <div id="logo">
+                <!-- logo.jpg -->
+                <img src="LOGO3.svg" alt="">
+            </div>
+            <div id="connect">
+                <h4>聯絡我們</h4>
+                <a href=""><i class="fab fa-facebook-square"></i> Facebook</a><br>
+                <a href=""><i class="fab fa-instagram"></i> Instagram</a><br>
+                電話:0800-092-000<br>
+                <a href="">客服信箱</a><br>
+            </div>
+            <div id="time">
+                <h4>營業時間</h4>
+                周一至周日<br>
+                17:30-11:30 <br>
+            </div>
+        </div>
+        <hr>
+        <div id="copyright">Copyright © 2021 Yong Ho Dou Jiang. All rights reserved.</div>
+    </footer>
+</body>
+</html>
